@@ -44,7 +44,7 @@ fun SearchBar(searchQuery: String, onSearchQueryChanged: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp, bottom = 8.dp)
-            .height(56.dp),
+            .height(62.dp),
         shape = RoundedCornerShape(24.dp),
         label = { Text("Search") }
     )

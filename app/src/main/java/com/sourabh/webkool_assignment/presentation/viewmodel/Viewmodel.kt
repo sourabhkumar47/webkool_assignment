@@ -1,21 +1,18 @@
 package com.sourabh.webkool_assignment.presentation.viewmodel
 
-import androidx.lifecycle.*
-import com.sourabh.webkool_assignment.data.user_list.UsersListItem
-import com.sourabh.webkool_assignment.data.user_detail.user_info.UserInfoItem
-import com.sourabh.webkool_assignment.data.user_detail.user_post.UserPostItem
-import com.sourabh.webkool_assignment.data.user_comment.UserCommentItem
-import kotlinx.coroutines.launch
-
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sourabh.webkool_assignment.api.ApiInterface
-import kotlinx.coroutines.launch
+import com.sourabh.webkool_assignment.data.user_list.UsersListItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class UserViewModel(private val api: ApiInterface) : ViewModel() {
 
+    private val _originalUserList = MutableStateFlow<List<UsersListItem>>(emptyList())
     private val _userList = MutableStateFlow<List<UsersListItem>>(emptyList())
     val userList: StateFlow<List<UsersListItem>> = _userList
 
@@ -29,17 +26,23 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
     private fun fetchUsers() {
         viewModelScope.launch {
             try {
-                _userList.value = api.getUsers()
+                val users = api.getUsers()
+                _originalUserList.value = users
+                _userList.value = users
             } catch (e: Exception) {
-                // Handle the error
+                Log.e("UserViewModel", "Error fetching users", e)
             }
         }
     }
 
     fun onSearchQueryChanged(query: String) {
         _searchQuery.value = query
-        _userList.value = _userList.value.filter {
-            it.name.contains(query, ignoreCase = true) || it.id.toString() == query
+        _userList.value = if(query.isEmpty()) {
+            _originalUserList.value
+        }else {
+            _userList.value.filter {
+                it.name.contains(query, ignoreCase = true) || it.id.toString() == query
+            }
         }
     }
 }

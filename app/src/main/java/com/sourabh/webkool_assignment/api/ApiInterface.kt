@@ -1,7 +1,7 @@
 package com.sourabh.webkool_assignment.api
 
 import com.sourabh.webkool_assignment.data.user_comment.UserCommentItem
-import com.sourabh.webkool_assignment.data.user_detail.user_info.UserInfoItem
+import com.sourabh.webkool_assignment.data.user_detail.user_info.UserInfo
 import com.sourabh.webkool_assignment.data.user_detail.user_post.UserPostItem
 import com.sourabh.webkool_assignment.data.user_list.UsersListItem
 import retrofit2.http.GET
@@ -12,7 +12,7 @@ interface ApiInterface {
     suspend fun getUsers(): List<UsersListItem>
 
     @GET("/users/{id}")
-    suspend fun getUserInfo(@Path("id") userId: Int): UserInfoItem
+    suspend fun getUserInfo(@Path("id") userId: Int): UserInfo
 
     @GET("/users/{id}/posts")
     suspend fun getUserPosts(@Path("id") userId: Int): List<UserPostItem>

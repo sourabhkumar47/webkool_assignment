@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sourabh.webkool_assignment.api.ApiInterface
+import com.sourabh.webkool_assignment.data.user_detail.user_info.UserInfo
 import com.sourabh.webkool_assignment.data.user_detail.user_post.UserPostItem
 import com.sourabh.webkool_assignment.data.user_list.UsersListItem
 import com.sourabh.webkool_assignment.di.apiInterface
@@ -25,8 +26,13 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
+    private val _loading = MutableStateFlow(true)
+    val loading: StateFlow<Boolean> = _loading
+
+
     init {
         fetchUsers()
+        loadUserInfo()
     }
 
     private fun fetchUsers() {
@@ -58,4 +64,21 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
         }
         emit(posts)
     }
+
+    fun getUserInfo(userId: Int): Flow<UserInfo> = flow {
+        val userInfo = withContext(Dispatchers.IO) {
+            api.getUserInfo(userId)
+        }
+        emit(userInfo)
+    }
+
+    fun loadUserInfo() {
+        viewModelScope.launch {
+            _loading.value = true
+            kotlinx.coroutines.delay(3000) // 3 seconds delay
+            _loading.value = false
+        }
+    }
+
+
 }

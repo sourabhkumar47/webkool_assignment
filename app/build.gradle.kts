@@ -102,6 +102,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.5")
+
 
     // Room
     implementation("androidx.room:room-runtime:2.4.2")

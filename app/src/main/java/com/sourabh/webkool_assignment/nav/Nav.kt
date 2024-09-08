@@ -1,13 +1,12 @@
 package com.sourabh.webkool_assignment.nav
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sourabh.webkool_assignment.api.ApiInterface
-import com.sourabh.webkool_assignment.presentation.viewmodel.UserDetailScreen
+import com.sourabh.webkool_assignment.presentation.UserDetailScreen
 import com.sourabh.webkool_assignment.presentation.viewmodel.UserListScreen
 import com.sourabh.webkool_assignment.presentation.viewmodel.UserViewModelFactory
 import retrofit2.Retrofit
@@ -34,7 +33,7 @@ fun AppNavigation() {
             )
         }
         composable("userDetail/{userId}") { backStackEntry ->
-            val userId = backStackEntry.arguments?.getString("userId")?.toInt() ?: 0
+            val userId = backStackEntry.arguments?.getString("userId")?.toInt() ?: 1
             UserDetailScreen(viewModel = viewModel(factory = UserViewModelFactory(apiInterface)), userId = userId)
         }
     }

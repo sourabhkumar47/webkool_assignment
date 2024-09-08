@@ -5,10 +5,16 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sourabh.webkool_assignment.api.ApiInterface
+import com.sourabh.webkool_assignment.data.user_detail.user_post.UserPostItem
 import com.sourabh.webkool_assignment.data.user_list.UsersListItem
+import com.sourabh.webkool_assignment.di.apiInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class UserViewModel(private val api: ApiInterface) : ViewModel() {
 
@@ -44,5 +50,12 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
                 it.name.contains(query, ignoreCase = true) || it.id.toString() == query
             }
         }
+    }
+
+    fun getUserPosts(userId: Int): Flow<List<UserPostItem>> = flow {
+        val posts = withContext(Dispatchers.IO) {
+            api.getUserPosts(userId)
+        }
+        emit(posts)
     }
 }

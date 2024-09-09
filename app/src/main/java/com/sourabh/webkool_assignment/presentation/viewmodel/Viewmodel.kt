@@ -29,6 +29,12 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
     private val _loading = MutableStateFlow(true)
     val loading: StateFlow<Boolean> = _loading
 
+    private val _originalUserPosts = MutableStateFlow<List<UserPostItem>>(emptyList())
+    private val _userPosts = MutableStateFlow<List<UserPostItem>>(emptyList())
+    val userPosts: StateFlow<List<UserPostItem>> = _userPosts
+
+    private val _postSearchQuery = MutableStateFlow("")
+    val postSearchQuery: StateFlow<String> = _postSearchQuery
 
     init {
         fetchUsers()
@@ -58,13 +64,15 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
         }
     }
 
-    fun getUserPosts(userId: Int): Flow<List<UserPostItem>> = flow {
-        val posts = withContext(Dispatchers.IO) {
-            api.getUserPosts(userId)
+    fun getUserPosts(userId: Int) {
+        viewModelScope.launch {
+            val posts = withContext(Dispatchers.IO) {
+                api.getUserPosts(userId)
+            }
+            _originalUserPosts.value = posts
+            _userPosts.value = posts
         }
-        emit(posts)
     }
-
     fun getUserInfo(userId: Int): Flow<UserInfo> = flow {
         val userInfo = withContext(Dispatchers.IO) {
             api.getUserInfo(userId)
@@ -72,13 +80,22 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
         emit(userInfo)
     }
 
-    fun loadUserInfo() {
+    private fun loadUserInfo() {
         viewModelScope.launch {
             _loading.value = true
-            kotlinx.coroutines.delay(3000) // 3 seconds delay
+            kotlinx.coroutines.delay(3000)
             _loading.value = false
         }
     }
 
-
+    fun onPostSearchQueryChanged(query: String) {
+        _postSearchQuery.value = query
+        _userPosts.value = if (query.isEmpty()) {
+            _originalUserPosts.value
+        } else {
+            _originalUserPosts.value.filter {
+                it.title.contains(query, ignoreCase = true) || it.id.toString() == query
+            }
+        }
+    }
 }

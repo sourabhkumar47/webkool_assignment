@@ -1,23 +1,21 @@
-package com.sourabh.webkool_assignment.presentation
+package com.sourabh.webkool_assignment.presentation.detail_screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,13 +25,12 @@ import com.sourabh.webkool_assignment.data.user_detail.user_info.Address
 import com.sourabh.webkool_assignment.data.user_detail.user_info.Company
 import com.sourabh.webkool_assignment.data.user_detail.user_info.Geo
 import com.sourabh.webkool_assignment.data.user_detail.user_info.UserInfo
-import com.sourabh.webkool_assignment.data.user_detail.user_post.UserPostItem
+import com.sourabh.webkool_assignment.presentation.SearchBar
 import com.sourabh.webkool_assignment.presentation.viewmodel.UserViewModel
-import kotlinx.coroutines.delay
 
 @Composable
 fun UserDetailScreen(viewModel: UserViewModel, userId: Int) {
-    val userPosts by viewModel.getUserPosts(userId).collectAsState(initial = emptyList())
+    val userPosts by viewModel.userPosts.collectAsState()
     val userInfo by viewModel.getUserInfo(userId).collectAsState(
         initial = UserInfo(
             address = Address("", Geo("", ""), "", "", ""),
@@ -49,8 +46,14 @@ fun UserDetailScreen(viewModel: UserViewModel, userId: Int) {
 
     val loading by viewModel.loading.collectAsState()
 
+    val postSearchQuery by viewModel.postSearchQuery.collectAsState()
+
     var selectedTabIndex by remember {
         mutableIntStateOf(0)
+    }
+
+    LaunchedEffect(userId) {
+        viewModel.getUserPosts(userId)
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -60,9 +63,14 @@ fun UserDetailScreen(viewModel: UserViewModel, userId: Int) {
             Column(modifier = Modifier.fillMaxSize()) {
                 when (selectedTabIndex) {
                     0 -> UserInfoScreen(userInfo)
-                    1 -> LazyColumn {
-                        items(userPosts) { post ->
-                            PostItem(post)
+                    1 -> {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            SearchBar(postSearchQuery, viewModel::onPostSearchQueryChanged)
+                            LazyColumn {
+                                items(userPosts) { post ->
+                                    PostItem(post)
+                                }
+                            }
                         }
                     }
                 }
@@ -85,20 +93,6 @@ fun UserDetailScreen(viewModel: UserViewModel, userId: Int) {
                     onClick = { selectedTabIndex = 1 }
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun PostItem(post: UserPostItem) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Title: ${post.title}")
-            Text(text = "Body: ${post.body}")
         }
     }
 }

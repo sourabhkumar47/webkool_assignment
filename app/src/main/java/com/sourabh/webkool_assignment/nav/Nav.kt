@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sourabh.webkool_assignment.api.ApiInterface
-import com.sourabh.webkool_assignment.presentation.UserDetailScreen
+import com.sourabh.webkool_assignment.presentation.detail_screen.UserDetailScreen
 import com.sourabh.webkool_assignment.presentation.viewmodel.UserListScreen
 import com.sourabh.webkool_assignment.presentation.viewmodel.UserViewModelFactory
 import retrofit2.Retrofit

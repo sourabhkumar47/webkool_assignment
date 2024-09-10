@@ -1,4 +1,4 @@
-package com.sourabh.webkool_assignment.presentation.detail_screen
+package com.sourabh.webkool_assignment.presentation.post_list_screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.sourabh.webkool_assignment.data.user_detail.user_info.Address
 import com.sourabh.webkool_assignment.data.user_detail.user_info.Company
 import com.sourabh.webkool_assignment.data.user_detail.user_info.Geo
@@ -29,7 +30,7 @@ import com.sourabh.webkool_assignment.presentation.SearchBar
 import com.sourabh.webkool_assignment.presentation.viewmodel.UserViewModel
 
 @Composable
-fun UserDetailScreen(viewModel: UserViewModel, userId: Int) {
+fun UserDetailScreen(viewModel: UserViewModel, userId: Int, navController: NavController) {
     val userPosts by viewModel.userPosts.collectAsState()
     val userInfo by viewModel.getUserInfo(userId).collectAsState(
         initial = UserInfo(
@@ -45,7 +46,6 @@ fun UserDetailScreen(viewModel: UserViewModel, userId: Int) {
     )
 
     val loading by viewModel.loading.collectAsState()
-
     val postSearchQuery by viewModel.postSearchQuery.collectAsState()
 
     var selectedTabIndex by remember {
@@ -68,7 +68,7 @@ fun UserDetailScreen(viewModel: UserViewModel, userId: Int) {
                             SearchBar(postSearchQuery, viewModel::onPostSearchQueryChanged)
                             LazyColumn {
                                 items(userPosts) { post ->
-                                    PostItem(post)
+                                    PostItem(post, navController = navController)
                                 }
                             }
                         }
@@ -80,7 +80,6 @@ fun UserDetailScreen(viewModel: UserViewModel, userId: Int) {
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .wrapContentHeight()
-
             ) {
                 Tab(
                     text = { Text("User Info") },

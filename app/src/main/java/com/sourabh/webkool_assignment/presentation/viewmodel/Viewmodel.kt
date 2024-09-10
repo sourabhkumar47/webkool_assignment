@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sourabh.webkool_assignment.api.ApiInterface
+import com.sourabh.webkool_assignment.data.user_comment.UserCommentItem
 import com.sourabh.webkool_assignment.data.user_detail.user_info.UserInfo
 import com.sourabh.webkool_assignment.data.user_detail.user_post.UserPostItem
 import com.sourabh.webkool_assignment.data.user_list.UsersListItem
@@ -36,9 +37,25 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
     private val _postSearchQuery = MutableStateFlow("")
     val postSearchQuery: StateFlow<String> = _postSearchQuery
 
+    private val _comments = MutableStateFlow<List<UserCommentItem>>(emptyList())
+    val comments: StateFlow<List<UserCommentItem>> = _comments
+
     init {
         fetchUsers()
         loadUserInfo()
+    }
+
+    fun getComments(postId: Int) {
+        viewModelScope.launch {
+            try {
+                val comments = withContext(Dispatchers.IO) {
+                    api.getComments(postId)
+                }
+                _comments.value = comments
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Error fetching comments", e)
+            }
+        }
     }
 
     private fun fetchUsers() {

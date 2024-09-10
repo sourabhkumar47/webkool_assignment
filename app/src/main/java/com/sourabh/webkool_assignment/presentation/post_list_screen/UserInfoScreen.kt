@@ -1,4 +1,4 @@
-package com.sourabh.webkool_assignment.presentation.detail_screen
+package com.sourabh.webkool_assignment.presentation.post_list_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

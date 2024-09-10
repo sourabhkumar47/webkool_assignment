@@ -1,7 +1,6 @@
 package com.sourabh.webkool_assignment.presentation.viewmodel
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sourabh.webkool_assignment.api.ApiInterface
@@ -9,7 +8,6 @@ import com.sourabh.webkool_assignment.data.user_comment.UserCommentItem
 import com.sourabh.webkool_assignment.data.user_detail.user_info.UserInfo
 import com.sourabh.webkool_assignment.data.user_detail.user_post.UserPostItem
 import com.sourabh.webkool_assignment.data.user_list.UsersListItem
-import com.sourabh.webkool_assignment.di.apiInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

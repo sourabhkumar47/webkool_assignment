@@ -9,15 +9,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.sourabh.webkool_assignment.api.ApiInterface
 import com.sourabh.webkool_assignment.api.apiInterface
 import com.sourabh.webkool_assignment.presentation.details_screen.PostDetailScreen
 import com.sourabh.webkool_assignment.presentation.post_list_screen.UserDetailScreen
 import com.sourabh.webkool_assignment.viewmodel.UserListScreen
 import com.sourabh.webkool_assignment.viewmodel.UserViewModel
 import com.sourabh.webkool_assignment.viewmodel.UserViewModelFactory
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable

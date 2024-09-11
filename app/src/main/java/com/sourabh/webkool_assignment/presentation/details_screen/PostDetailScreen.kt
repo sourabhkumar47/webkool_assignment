@@ -83,7 +83,7 @@ fun CommentItem(comment: UserCommentItem) {
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = "Email: ${comment.email}")
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "${comment.body}")
+            Text(text = comment.body)
         }
     }
 }

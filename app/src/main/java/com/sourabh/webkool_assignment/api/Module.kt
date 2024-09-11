@@ -1,6 +1,5 @@
-package com.sourabh.webkool_assignment.di
+package com.sourabh.webkool_assignment.api
 
-import com.sourabh.webkool_assignment.api.ApiInterface
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

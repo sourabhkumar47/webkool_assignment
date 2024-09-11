@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sourabh.webkool_assignment.api.ApiInterface
 import com.sourabh.webkool_assignment.data.user_list.UsersListItem
-import com.sourabh.webkool_assignment.di.apiInterface
+import com.sourabh.webkool_assignment.api.apiInterface
 import com.sourabh.webkool_assignment.presentation.HomeScreen
 
 @Composable

@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.sourabh.webkool_assignment.api.ApiInterface
+import com.sourabh.webkool_assignment.api.apiInterface
 import com.sourabh.webkool_assignment.presentation.details_screen.PostDetailScreen
 import com.sourabh.webkool_assignment.presentation.post_list_screen.UserDetailScreen
 import com.sourabh.webkool_assignment.viewmodel.UserListScreen
@@ -22,9 +23,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-
-    val apiInterface: ApiInterface = Retrofit.Builder().baseUrl(ApiInterface.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create()).build().create(ApiInterface::class.java)
 
     NavHost(navController, startDestination = "userList") {
         composable("userList") {

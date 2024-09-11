@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sourabh.webkool_assignment.data.user_detail.user_info.Address
@@ -66,7 +67,7 @@ fun UserDetailScreen(viewModel: UserViewModel, userId: Int, navController: NavCo
                     1 -> {
                         Column(modifier = Modifier.padding(12.dp)) {
                             SearchBar(postSearchQuery, viewModel::onPostSearchQueryChanged)
-                            LazyColumn {
+                            LazyColumn(modifier = Modifier.padding(bottom = 36.dp)) {
                                 items(userPosts) { post ->
                                     PostItem(post, navController = navController)
                                 }

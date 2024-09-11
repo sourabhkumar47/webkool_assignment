@@ -1,4 +1,4 @@
-package com.sourabh.webkool_assignment.presentation.viewmodel
+package com.sourabh.webkool_assignment.viewmodel
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel

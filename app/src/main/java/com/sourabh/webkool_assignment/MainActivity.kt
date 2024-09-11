@@ -9,7 +9,6 @@ import com.sourabh.webkool_assignment.nav.AppNavigation
 import com.sourabh.webkool_assignment.ui.theme.Webkool_assignmentTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +16,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             Webkool_assignmentTheme(darkTheme = false) {
                 AppNavigation()
-                Log.d("MainActivity", "onCreate: ")
             }
         }
     }

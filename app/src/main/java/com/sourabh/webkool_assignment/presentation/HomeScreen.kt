@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sourabh.webkool_assignment.data.user_list.UsersListItem
-import com.sourabh.webkool_assignment.presentation.viewmodel.UserViewModel
+import com.sourabh.webkool_assignment.viewmodel.UserViewModel
 
 @Composable
 fun HomeScreen(viewModel: UserViewModel = viewModel(), onUserClick: (UsersListItem) -> Unit) {
@@ -33,7 +33,7 @@ fun HomeScreen(viewModel: UserViewModel = viewModel(), onUserClick: (UsersListIt
     val searchQuery by viewModel.searchQuery.collectAsState()
 
     Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-        SearchBar(searchQuery, viewModel::onSearchQueryChanged)
+        SearchBar(searchQuery, viewModel::onHomeSearchQueryChanged)
         Spacer(modifier = Modifier.height(6.dp))
         UserList(userList, onUserClick)
     }

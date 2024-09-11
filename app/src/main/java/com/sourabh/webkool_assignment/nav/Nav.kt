@@ -12,9 +12,9 @@ import androidx.navigation.navArgument
 import com.sourabh.webkool_assignment.api.ApiInterface
 import com.sourabh.webkool_assignment.presentation.details_screen.PostDetailScreen
 import com.sourabh.webkool_assignment.presentation.post_list_screen.UserDetailScreen
-import com.sourabh.webkool_assignment.presentation.viewmodel.UserListScreen
-import com.sourabh.webkool_assignment.presentation.viewmodel.UserViewModel
-import com.sourabh.webkool_assignment.presentation.viewmodel.UserViewModelFactory
+import com.sourabh.webkool_assignment.viewmodel.UserListScreen
+import com.sourabh.webkool_assignment.viewmodel.UserViewModel
+import com.sourabh.webkool_assignment.viewmodel.UserViewModelFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -52,7 +52,6 @@ fun AppNavigation() {
             val postId = backStackEntry.arguments?.getInt("postId") ?: 1
             Log.d("PostDetail", "PostId: $postId")
             val viewModel: UserViewModel = viewModel(factory = UserViewModelFactory(apiInterface))
-//            val post = viewModel.userPosts.value.find { it.id == postId }
             PostDetailScreen(viewModel = viewModel, postId = postId,backStackEntry = backStackEntry)
         }
     }

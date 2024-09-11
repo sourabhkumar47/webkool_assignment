@@ -28,7 +28,7 @@ import com.sourabh.webkool_assignment.data.user_detail.user_info.Company
 import com.sourabh.webkool_assignment.data.user_detail.user_info.Geo
 import com.sourabh.webkool_assignment.data.user_detail.user_info.UserInfo
 import com.sourabh.webkool_assignment.presentation.SearchBar
-import com.sourabh.webkool_assignment.presentation.viewmodel.UserViewModel
+import com.sourabh.webkool_assignment.viewmodel.UserViewModel
 
 @Composable
 fun UserDetailScreen(viewModel: UserViewModel, userId: Int, navController: NavController) {

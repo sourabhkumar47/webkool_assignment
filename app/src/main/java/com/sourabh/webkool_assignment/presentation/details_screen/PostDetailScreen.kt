@@ -27,7 +27,7 @@ import androidx.navigation.NavBackStackEntry
 import com.google.gson.Gson
 import com.sourabh.webkool_assignment.data.user_comment.UserCommentItem
 import com.sourabh.webkool_assignment.data.user_detail.user_post.UserPostItem
-import com.sourabh.webkool_assignment.presentation.viewmodel.UserViewModel
+import com.sourabh.webkool_assignment.viewmodel.UserViewModel
 
 @Composable
 fun PostDetailScreen(viewModel: UserViewModel, postId: Int, backStackEntry: NavBackStackEntry) {

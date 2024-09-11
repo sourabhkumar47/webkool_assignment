@@ -1,4 +1,4 @@
-package com.sourabh.webkool_assignment.presentation.viewmodel
+package com.sourabh.webkool_assignment.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -43,16 +43,11 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
         loadUserInfo()
     }
 
-    fun getComments(postId: Int) {
+    private fun loadUserInfo() {
         viewModelScope.launch {
-            try {
-                val comments = withContext(Dispatchers.IO) {
-                    api.getComments(postId)
-                }
-                _comments.value = comments
-            } catch (e: Exception) {
-                Log.e("UserViewModel", "Error fetching comments", e)
-            }
+            _loading.value = true
+            kotlinx.coroutines.delay(3000)
+            _loading.value = false
         }
     }
 
@@ -68,15 +63,11 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
         }
     }
 
-    fun onSearchQueryChanged(query: String) {
-        _searchQuery.value = query
-        _userList.value = if(query.isEmpty()) {
-            _originalUserList.value
-        }else {
-            _userList.value.filter {
-                it.name.contains(query, ignoreCase = true) || it.id.toString() == query
-            }
+    fun getUserInfo(userId: Int): Flow<UserInfo> = flow {
+        val userInfo = withContext(Dispatchers.IO) {
+            api.getUserInfo(userId)
         }
+        emit(userInfo)
     }
 
     fun getUserPosts(userId: Int) {
@@ -88,18 +79,15 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
             _userPosts.value = posts
         }
     }
-    fun getUserInfo(userId: Int): Flow<UserInfo> = flow {
-        val userInfo = withContext(Dispatchers.IO) {
-            api.getUserInfo(userId)
-        }
-        emit(userInfo)
-    }
 
-    private fun loadUserInfo() {
-        viewModelScope.launch {
-            _loading.value = true
-            kotlinx.coroutines.delay(3000)
-            _loading.value = false
+    fun onHomeSearchQueryChanged(query: String) {
+        _searchQuery.value = query
+        _userList.value = if (query.isEmpty()) {
+            _originalUserList.value
+        } else {
+            _userList.value.filter {
+                it.name.contains(query, ignoreCase = true) || it.id.toString() == query
+            }
         }
     }
 
@@ -110,6 +98,19 @@ class UserViewModel(private val api: ApiInterface) : ViewModel() {
         } else {
             _originalUserPosts.value.filter {
                 it.title.contains(query, ignoreCase = true) || it.id.toString() == query
+            }
+        }
+    }
+
+    fun getComments(postId: Int) {
+        viewModelScope.launch {
+            try {
+                val comments = withContext(Dispatchers.IO) {
+                    api.getComments(postId)
+                }
+                _comments.value = comments
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Error fetching comments", e)
             }
         }
     }
